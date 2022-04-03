@@ -33,6 +33,7 @@ jobs:
         cd ../dashboard-server
         npm install -D --silent --no-audit --no-fund &>/dev/null 
         npm install sqlite3 --silent --no-save --no-audit --no-fund &>/dev/null 
+        cd ..
     - name: Generate documentation
       run: |
         export RESPONSE_PATH=`pwd`/documentation
