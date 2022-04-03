@@ -35,8 +35,8 @@ jobs:
         npm install sqlite3 --silent --no-save --no-audit --no-fund &>/dev/null 
     - name: Generate documentation
       run: |
-        export RESPONSE_PATH=`pwd`/documentation
-        export SCREENSHOT_PATH=`pwd`/documentation/screenshots
+        export RESPONSE_PATH=`pwd`/documentation/example-web-app
+        export SCREENSHOT_PATH=`pwd`/documentation/screenshots/example-web-app
         cd dashboard-server
         node --expose-gc ./node_modules/.bin/mocha --timeout 480000 --slow 480000 --recursive --extension .test.js . 2>&1 | tee tests.txt
       env:
