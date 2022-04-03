@@ -1,0 +1,38 @@
+{
+  "name": "example-web-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ignore 'node_modules/**/*' --no-colors --timeout 1800000 --slow 1800000 --exit $(find . -name '*.test.js') --grep screenshots"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0",
+    "npm": ">=8.0"
+  },
+  "dependencies": {
+    "@layeredapps/dashboard": "latest",
+    "@layeredapps/organizations": "latest"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "latest",
+    "puppeteer": "latest",
+    "mocha": "latest"
+  },
+  "dashboard": {
+    "title": "Example web app",
+    "modules": [
+      "@layeredapps/organizations"
+    ],
+    "server": [
+      "/src/server/allow-api-request.js"
+    ],
+    "proxy": [
+      "/src/proxy/x-account.js",
+      "/src/proxy/x-memberships.js",
+      "/src/proxy/x-organizations.js"
+    ]
+  }
+}
