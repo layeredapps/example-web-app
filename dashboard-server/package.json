@@ -27,12 +27,12 @@
       "@layeredapps/organizations"
     ],
     "server": [
-      "/src/server/allow-api-request.js"
+      "@layeredapps/dashboard/src/server/forward-api-request.js"
     ],
     "proxy": [
-      "/src/proxy/x-account.js",
-      "/src/proxy/x-memberships.js",
-      "/src/proxy/x-organizations.js"
+      "@layeredapps/dashboard/src/proxy/x-account.js",
+      "@layeredapps/organizations/src/proxy/x-memberships.js",
+      "@layeredapps/organizations/src/proxy/x-organizations.js"
     ]
   }
 }
