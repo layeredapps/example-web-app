@@ -28,19 +28,14 @@ describe('example-web-app', () => {
     const req = TestHelper.createRequest('/home')
     req.waitFormComplete = async (page) => {
       while (true) {
-        const frame = await page.frames().find(f => f.name() === 'application-iframe')
-        if (!frame) {
-          await page.waitFor(100)
-          continue
-        }
-        const postContent = await frame.evaluate(() => {
+        const postContent = await page.evaluate(() => {
           const postContent = document.getElementById('post-content')
           return postContent.style.display
         })
         if (postContent === 'block') {
           return
         }
-        await page.waitFor(100)
+        await TestHelper.wait(100)
       }
     }
     req.account = user.account
@@ -190,19 +185,14 @@ describe('example-web-app', () => {
       }]
     req.waitFormComplete = async (page) => {
       while (true) {
-        const frame = await page.frames().find(f => f.name() === 'application-iframe')
-        if (!frame) {
-          await page.waitFor(100)
-          continue
-        }
-        const postContent = await frame.evaluate(() => {
+        const postContent = await page.evaluate(() => {
           const postContent = document.getElementById('post-content')
           return postContent.style.display
         })
         if (postContent === 'block') {
           return
         }
-        await page.waitFor(100)
+        await TestHelper.wait(100)
       }
     }
     await req.post()
@@ -234,36 +224,26 @@ describe('example-web-app', () => {
     }
     req.waitBefore = async (page) => {
       while (true) {
-        const frame = await page.frames().find(f => f.name() === 'application-iframe')
-        if (!frame) {
-          await page.waitFor(100)
-          continue
-        }
-        const postCreator = await frame.evaluate(() => {
+        const postCreator = await page.evaluate(() => {
           const postCreator = document.getElementById('post-creator')
           return postCreator ? postCreator.style.display : null
         })
         if (postCreator === 'block') {
           return
         }
-        await page.waitFor(100)
+        await TestHelper.wait(100)
       }
     }
     req.waitAfter = async (page) => {
       while (true) {
-        const frame = await page.frames().find(f => f.name() === 'application-iframe')
-        if (!frame) {
-          await page.waitFor(100)
-          continue
-        }
-        const postContent = await frame.evaluate(() => {
+        const postContent = await page.evaluate(() => {
           const postContent = document.getElementById('post-content')
           return postContent ? postContent.style.display : null
         })
         if (postContent === 'block') {
           return
         }
-        await page.waitFor(100)
+        await TestHelper.wait(100)
       }
     }
     await req.post()
@@ -284,12 +264,7 @@ describe('example-web-app', () => {
         click: '#organization-list-button',
         waitAfter: async (page) => {
           while (true) {
-            const frame = await page.frames().find(f => f.name() === 'application-iframe')
-            if (!frame) {
-              await page.waitFor(100)
-              continue
-            }
-            const postLink = await frame.evaluate(() => {
+            const postLink = await page.evaluate(() => {
               const postLinks = document.getElementsByTagName('a')
               if (!postLinks || !postLinks.length) {
                 return false
@@ -301,9 +276,9 @@ describe('example-web-app', () => {
               }
               return false
             })
-            await page.waitFor(100)
+            await TestHelper.wait(100)
             if (postLink) {
-              return page.waitFor(100)
+              return TestHelper.wait(100)
             }
           }
         }
@@ -312,19 +287,14 @@ describe('example-web-app', () => {
         click: '/document/readme.md',
         waitAfter: async (page) => {
           while (true) {
-            const frame = await page.frames().find(f => f.name() === 'application-iframe')
-            if (!frame) {
-              await page.waitFor(100)
-              continue
-            }
-            const postContent = await frame.evaluate(() => {
+            const postContent = await page.evaluate(() => {
               const postContent = document.getElementById('post-content')
               return postContent ? postContent.style.display : null
             })
             if (postContent === 'block') {
               return
             }
-            await page.waitFor(100)
+            await TestHelper.wait(100)
           }
         }
       }
