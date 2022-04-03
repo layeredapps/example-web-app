@@ -121,7 +121,6 @@ function throwError (req, res, error) {
 }
 
 async function receiveRequest (req, res) {
-  console.log(req.method, req.url)
   const question = req.url.indexOf('?')
   if (question > -1) {
     req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
