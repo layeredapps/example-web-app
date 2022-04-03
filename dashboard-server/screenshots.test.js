@@ -34,7 +34,7 @@ describe('example-web-app', () => {
           continue
         }
         const postContent = await frame.evaluate(() => {
-          var postContent = document.getElementById('post-content')
+          const postContent = document.getElementById('post-content')
           return postContent.style.display
         })
         if (postContent === 'block') {
@@ -196,7 +196,7 @@ describe('example-web-app', () => {
           continue
         }
         const postContent = await frame.evaluate(() => {
-          var postContent = document.getElementById('post-content')
+          const postContent = document.getElementById('post-content')
           return postContent.style.display
         })
         if (postContent === 'block') {
@@ -240,7 +240,7 @@ describe('example-web-app', () => {
           continue
         }
         const postCreator = await frame.evaluate(() => {
-          var postCreator = document.getElementById('post-creator')
+          const postCreator = document.getElementById('post-creator')
           return postCreator ? postCreator.style.display : null
         })
         if (postCreator === 'block') {
@@ -257,7 +257,7 @@ describe('example-web-app', () => {
           continue
         }
         const postContent = await frame.evaluate(() => {
-          var postContent = document.getElementById('post-content')
+          const postContent = document.getElementById('post-content')
           return postContent ? postContent.style.display : null
         })
         if (postContent === 'block') {
@@ -290,11 +290,11 @@ describe('example-web-app', () => {
               continue
             }
             const postLink = await frame.evaluate(() => {
-              var postLinks = document.getElementsByTagName('a')
+              const postLinks = document.getElementsByTagName('a')
               if (!postLinks || !postLinks.length) {
                 return false
               }
-              for (var i = 0, len = postLinks.length; i < len; i++) {
+              for (let i = 0, len = postLinks.length; i < len; i++) {
                 if (postLinks[i].innerHTML === 'readme.md') {
                   return true
                 }
@@ -318,7 +318,7 @@ describe('example-web-app', () => {
               continue
             }
             const postContent = await frame.evaluate(() => {
-              var postContent = document.getElementById('post-content')
+              const postContent = document.getElementById('post-content')
               return postContent ? postContent.style.display : null
             })
             if (postContent === 'block') {
