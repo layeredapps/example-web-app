@@ -49,7 +49,7 @@ module.exports = {
 }
 
 async function flush () {
-  await Document.destroy({})
+  await Document.destroy({ where: {} })
 }
 
 async function load (documentid) {
