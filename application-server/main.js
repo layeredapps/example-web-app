@@ -23,6 +23,9 @@ module.exports = {
   stop: async () => {
     await server.stop()
     server = null
+  },
+  flush: async () => {
+    
   }
 }
 

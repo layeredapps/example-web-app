@@ -21,6 +21,6 @@ body,
 .template .menu-group:focus .dropdown-menu,
 .template .menu-group:focus .menu-trigger,
 .template .menu-group:active .dropdown-menu,
-.template .menu-group:active .menu-trigger { background-color: #477979 }
-.template .dropdown-menu a { color: #002B36 !important }
-.template .dropdown-menu a:hover { color: #006B36 !important }
+.template .menu-group:active .menu-trigger { background-color: #2c4b4b }
+.template .dropdown-menu a { color: rgba(255, 255, 255, 0.75) !important }
+.template .dropdown-menu a:hover { color: rgba(0, 0, 0, 0.75) !important }

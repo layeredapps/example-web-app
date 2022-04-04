@@ -44,7 +44,12 @@ module.exports = {
   list,
   listOrganization,
   remove,
-  create
+  create,
+  flush
+}
+
+async function flush () {
+  await Document.destroy({})
 }
 
 async function load (documentid) {
