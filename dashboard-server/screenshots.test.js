@@ -4,7 +4,7 @@ const fs = require('fs')
 const pasteText = fs.readFileSync('./node_modules/@layeredapps/dashboard/readme.md').toString()
 const TestHelper = require('./test-helper.js')
 
-describe('example-web-app', () => {
+describe('example-web-app screenshots', () => {
   it('user 1 registers', async () => {
     const req = TestHelper.createRequest('/')
     req.filename = '/src/www/user-creates-account.test.js'

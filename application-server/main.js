@@ -10,7 +10,10 @@ let server
 module.exports = {
   start: async (port) => {
     if (server) {
-      throw new Error('who restarted this...')
+      if (server.stop) {
+        await server.stop()
+        server = null
+      }
     }
     await Document.start()
     server = require('./src/server.js')
