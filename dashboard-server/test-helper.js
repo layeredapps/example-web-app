@@ -20,5 +20,5 @@ beforeEach(async () => {
 })
 
 after(async () => {
-  await applicationServer.stop
+  await applicationServer.stop()
 })
