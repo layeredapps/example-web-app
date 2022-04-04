@@ -2,7 +2,6 @@
 <html auth="false" template="false">
 <head>
   <title translate="yes">Landing page</title>
-  <link href="/public/pure-min.css" rel="stylesheet">
   <style>
     body {
       background-color: #002B36
@@ -45,11 +44,14 @@
       margin: 0 0 2rem 0
     }
 
-    a.pure-button {
+    a.button {
       background-color: rgba(255, 255, 255, 0.75);
       color: #002B36;
       font-size: 2rem;
-      margin-left: 0.5rem
+      margin-left: 0.5rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem
     }
 
     @media (max-width: 960px) {
@@ -58,7 +60,7 @@
         line-height: 3rem
       }
 
-      a.pure-button {
+      a.button {
         font-size: 1.2rem !important;
         display: inline-block;
         margin: 0 2rem 2rem 0
@@ -68,9 +70,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <title translate="yes">Web app</title><span>+ Dashboard</span>
+  <h1 translate="yes">Web app <span>+ Dashboard</span></h1>
   <div class="mast">
-    <h2>Pastebin with users by Dashboard</h2><a class="pure-button pure-button-primary" href="/account/signin">Sign in</a> <a class="pure-button pure-button-primary" href="/account/register">Register</a>
+    <h2>Pastebin with users by Dashboard</h2>
+    <a class="button" href="/account/signin">Sign in</a> 
+    <a class="button" href="/account/register">Register</a>
   </div>
 </body>
 </html>

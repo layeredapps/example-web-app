@@ -9,39 +9,37 @@ const validExtensions = [
 ]
 
 let sequelize
-if (process.env.SQLITE_DATABASE_FILE) {
-  sequelize = new Sequelize(process.env.SQLITE_DATABASE || 'dashboard', '', '', {
-    storage: process.env.SQLITE_DATABASE_FILE,
-    dialect: 'sqlite',
-    logging: false
-  })
-} else {
-  sequelize = new Sequelize('sqlite::memory', {
-    dialect: 'sqlite',
-    logging: false
-  })
-}
-
 class Document extends Model {}
-Document.init({
-  documentid: {
-    type: DataTypes.STRING(32),
-    primaryKey: true,
-    defaultValue: () => {
-      return Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
-    }
-  },
-  accountid: DataTypes.STRING(32),
-  organizationid: DataTypes.STRING(32),
-  document: DataTypes.TEXT
-}, {
-  sequelize,
-  modelName: 'document'
-})
-
-sequelize.sync()
 
 module.exports = {
+  start: async () => {
+    if (sequelize) {
+      await sequelize.close()
+      sequelize = null
+    }
+    sequelize = new Sequelize('sqlite::memory', {
+      dialect: 'sqlite',
+      logging: false
+    })
+    Document.init({
+      documentid: {
+        type: DataTypes.STRING(32),
+        primaryKey: true,
+        defaultValue: () => {
+          return Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        }
+      },
+      accountid: DataTypes.STRING(32),
+      organizationid: DataTypes.STRING(32),
+      document: DataTypes.TEXT,
+      public: DataTypes.BOOLEAN
+    }, {
+      sequelize,
+      modelName: 'document'
+    })
+    sequelize.sync()
+  },
+  validExtensions,
   load,
   list,
   listOrganization,
@@ -133,13 +131,14 @@ async function create (document, documentid, isPublic, accountid, organizationid
   } else {
     documentid = await generateUniqueKey()
   }
-  return Document.create({
+  const record = await Document.create({
     documentid,
     document,
     accountid,
     organizationid,
-    public: isPublic
+    public: !!isPublic
   })
+  return record.dataValues
 }
 
 async function generateUniqueKey () {

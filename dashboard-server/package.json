@@ -11,12 +11,13 @@
   },
   "dependencies": {
     "@layeredapps/dashboard": "latest",
-    "@layeredapps/organizations": "latest"
+    "@layeredapps/organizations": "latest",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "@faker-js/faker": "latest",
-    "puppeteer": "latest",
-    "mocha": "latest"
+    "mocha": "latest",
+    "puppeteer": "latest"
   },
   "dashboard": {
     "title": "Example web app",

@@ -87,6 +87,13 @@ window.onload = function () {
       showPostContents(JSON.parse(post))
     }
   }
+  if (elements['list-table'].rows.length === 1) {
+    elements['list-table'].style.display = 'none'
+    elements['no-posts-1'].style.display = ''
+  } else {
+    elements['list-table'].style.display = ''
+    elements['no-posts-1'].style.display = 'none'
+  }  
 }
 
 function listPosts (organizationid) {
