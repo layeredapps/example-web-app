@@ -93,7 +93,7 @@ window.onload = function () {
   } else {
     elements['list-table'].style.display = ''
     elements['no-posts-1'].style.display = 'none'
-  }  
+  }
 }
 
 function listPosts (organizationid) {
