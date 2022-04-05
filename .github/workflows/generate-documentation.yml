@@ -35,7 +35,6 @@ jobs:
         npm install sqlite3 --silent --no-save --no-audit --no-fund &>/dev/null 
     - name: Run merged test suite
       run: |
-        export RESPONSE_PATH=`pwd`/documentation/example-web-app
         export SCREENSHOT_PATH=`pwd`/documentation/screenshots/example-web-app
         cd dashboard-server
         node --expose-gc --max-old-space-size=4096 ./node_modules/.bin/mocha --grep screenshots --ignore 'node_modules/hpagent/*' --file test-helper.js --timeout 480000 --slow 480000 --recursive --extension .test.js . 2>&1 | tee tests.txt
@@ -47,7 +46,6 @@ jobs:
         DOMAIN: "localhost"
         GENERATE_SITEMAP_TXT: true
         GENERATE_API_TXT: true
-        GENERATE_RESPONSE: true
         GENERATE_SCREENSHOTS: true
         SCREENSHOT_LANGUAGES: "en"
         APPLICATION_SERVER: "http://localhost:9213"
