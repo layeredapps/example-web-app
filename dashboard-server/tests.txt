@@ -42,12 +42,10 @@
       Strength to protect passwords
         ✔ default 10
         ✔ Integer
-    ENCRYPTION_SECRET
-      32-character secret string
-        ✔ String
-    ENCRYPTION_SECRET_IV
-      16-character secret string
-        ✔ String
+    DISABLE_METRICS
+      Disable aggregated metrics
+        ✔ default unset
+        ✔ Boolean
     DISABLE_REGISTRATION
       Disable UI (not API) for registering
         ✔ default unset
@@ -465,6 +463,7 @@
       ✔ should create account (screenshots)
     errors
       ✔ invalid-username
+      ✔ duplicate-username
       ✔ invalid-username-length
       ✔ invalid-password
       ✔ invalid-password-length
@@ -1004,6 +1003,8 @@
     exceptions
       invalid-username
         ✔ missing posted username
+      duplicate-username
+        ✔ username already registered
       invalid-username-length
         ✔ posted username too short
         ✔ posted username too long
@@ -1404,7 +1405,7 @@
         ✔ missing querystring sessionid
         ✔ invalid querystring sessionid
       invalid-session
-        1) querystring sessionid is not active session
+        ✔ querystring sessionid is already ended
       invalid-account
         ✔ ineligible querystring sessionid
     returns
@@ -1710,8 +1711,9 @@
     before
       ✔ should bind data to req
     view
-      ✔ should have row for each organization (screenshots)
-      ✔ should have organization row for each membership
+      ✔ should show organizations created chart (screenshots)
+      ✔ should show membership chart
+      ✔ should show invitations chart
 
   /administrator/organizations/invitation
     before
@@ -2132,18 +2134,5 @@
     ✔ user 1 views shared post
 
 
-  1141 passing (24m)
-  1 failing
-
-  1) /api/user/set-session-ended
-       exceptions
-         invalid-session
-           querystring sessionid is not active session:
-     Error: Invalid content was returned from the application server
-      at Object.req.<computed> [as patch] (node_modules/@layeredapps/dashboard/test-helper.js:207:15)
-      at processTicksAndRejections (node:internal/process/task_queues:96:5)
-      at async Object.endSession (node_modules/@layeredapps/dashboard/test-helper.js:387:18)
-      at async Context.<anonymous> (node_modules/@layeredapps/dashboard/src/www/api/user/set-session-ended.test.js:42:9)
-
-
+  1145 passing (24m)
 
