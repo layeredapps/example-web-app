@@ -26,18 +26,6 @@ describe('example-web-app screenshots', () => {
   it('user 1 creates post', async () => {
     const user = await TestHelper.createUser()
     const req = TestHelper.createRequest('/home')
-    req.waitFormComplete = async (page) => {
-      while (true) {
-        const postContent = await page.evaluate(() => {
-          const postContent = document.getElementById('post-content')
-          return postContent.style.display
-        })
-        if (postContent === 'block') {
-          return
-        }
-        await TestHelper.wait(100)
-      }
-    }
     req.account = user.account
     req.session = user.session
     req.filename = '/src/www/user-creates-post.test.js'
@@ -47,6 +35,18 @@ describe('example-web-app screenshots', () => {
         'post-textarea': pasteText,
         documentid: 'readme.md',
         language: 'MarkDown'
+      },
+      waitAfter: async (page) => {
+        while (true) {
+          const postContent = await page.evaluate(() => {
+            const postContent = document.getElementById('post-content')
+            return postContent.style.display
+          })
+          if (postContent === 'block') {
+            return
+          }
+          await TestHelper.wait(100)
+        }
       }
     }]
     // const result = await req.post()
@@ -181,20 +181,20 @@ describe('example-web-app screenshots', () => {
           documentid: 'readme.md',
           language: 'MarkDown',
           organization: 'My organization'
+        },
+        waitAfter: async (page) => {
+          while (true) {
+            const postContent = await page.evaluate(() => {
+              const postContent = document.getElementById('post-content')
+              return postContent.style.display
+            })
+            if (postContent === 'block') {
+              return
+            }
+            await TestHelper.wait(100)
+          }
         }
       }]
-    req.waitFormComplete = async (page) => {
-      while (true) {
-        const postContent = await page.evaluate(() => {
-          const postContent = document.getElementById('post-content')
-          return postContent.style.display
-        })
-        if (postContent === 'block') {
-          return
-        }
-        await TestHelper.wait(100)
-      }
-    }
     await req.post()
     assert.strictEqual(1, 1)
   })
