@@ -1781,8 +1781,6 @@
         ✔ invalid querystring invitationid
     returns
       ✔ object
-    redacts
-      ✔ secretCodeHash
 
   /api/administrator/organizations/invitations-count
     returns
@@ -1852,6 +1850,9 @@
       invalid-organizationid
         ✔ missing querystring organizationid
         ✔ invalid querystring organizationid
+      invalid-lifespan
+        ✔ missing posted lifespan
+        ✔ invalid posted lifespan
       invalid-secret-code
         ✔ missing posted secret-code
       invalid-secret-code-length
@@ -1866,12 +1867,9 @@
 
   /api/user/organizations/create-membership
     exceptions
-      invalid-invitationid
-        ✔ missing querystring invitationid
-        ✔ invalid querystring invitationid
       invalid-invitation
-        ✔ querystring invitationid has been used
-        ✔ posted secret-code has been used
+        ✔ invitation has been used
+        ✔ invitation has been terminated
       invalid-secret-code
         ✔ missing posted secret-code
         ✔ invalid posted secret-code
@@ -1944,6 +1942,28 @@
     returns
       ✔ boolean
 
+  /api/user/organizations/invitation-memberships-count
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-account
+        ✔ ineligible accessing account
+    returns
+      ✔ integer
+
+  /api/user/organizations/invitation-memberships
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-account
+        ✔ ineligible accessing account
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
   /api/user/organizations/invitation
     exceptions
       invalid-invitationid
@@ -1953,8 +1973,6 @@
         ✔ accessing account is not organization owner
     returns
       ✔ object
-    redacts
-      ✔ secretCodeHash
 
   /api/user/organizations/invitations-count
     exceptions
@@ -2039,8 +2057,6 @@
         ✔ querystring invitationid is used
     returns
       ✔ object
-    redacts
-      ✔ secretCodeHash
 
   /api/user/organizations/organization-membership
     exceptions
@@ -2088,6 +2104,29 @@
     configuration
       ✔ environment PAGE_SIZE
 
+  /api/user/organizations/secret-invitation
+    exceptions
+      invalid-secret-code
+        ✔ missing querystring secret-code
+        ✔ invalid querystring secret-code
+      invalid-invitation
+        ✔ querystring invitationid is used
+    returns
+      ✔ object
+
+  /api/user/organizations/set-invitation-terminated
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-account
+        ✔ accessing account is not organization owner
+      invalid-invitation
+        ✔ invitation is not multi-use
+        ✔ invitation is already terminated
+    returns
+      ✔ object
+
   /api/user/organizations/set-organization-owner
     exceptions
       invalid-organizationid
@@ -2134,5 +2173,5 @@
     ✔ user 1 views shared post
 
 
-  1145 passing (24m)
+  1161 passing (37m)
 
