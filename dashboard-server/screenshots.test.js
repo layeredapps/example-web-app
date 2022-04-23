@@ -71,7 +71,8 @@ describe('example-web-app screenshots', () => {
           name: 'Developers',
           email: 'organization@email.com',
           'display-name': 'pm',
-          'display-email': 'pm@email.com'
+          'display-email': 'pm@email.com',
+          pin: '12345'
         }
       }
     ]
@@ -94,15 +95,18 @@ describe('example-web-app screenshots', () => {
         body: {
           name: 'Developers',
           email: 'organization@email.com',
+          pin: '8879',
           'display-name': 'org owner',
           'display-email': 'owner@organization.com'
         }
       },
+      { click: '/account/organizations/organizations' },
+      { click: '/account/organizations/organization' },
       { click: '/account/organizations/create-invitation' },
       {
         fill: '#submit-form',
         body: {
-          code: 'secret'
+          'secret-code': 'secret'
         }
       }
     ]
@@ -121,7 +125,8 @@ describe('example-web-app screenshots', () => {
     await TestHelper.createOrganization(user, {
       email: 'organization@' + user.profile.displayEmail.split('@')[1],
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '8879'
     })
     await TestHelper.createInvitation(user)
     const user2 = await TestHelper.createUser()
@@ -137,6 +142,7 @@ describe('example-web-app screenshots', () => {
         fill: '#submit-form',
         body: {
           invitationid: user.invitation.invitationid,
+          'organization-pin': '8879',
           'secret-code': user.invitation.secretCode,
           'display-name': user2.profile.firstName,
           'display-email': user2.profile.contactEmail
@@ -158,7 +164,8 @@ describe('example-web-app screenshots', () => {
     await TestHelper.createOrganization(user, {
       email: 'organization@' + user.profile.displayEmail.split('@')[1],
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '8879'
     })
     await TestHelper.createInvitation(user)
     const user2 = await TestHelper.createUser()
@@ -210,7 +217,8 @@ describe('example-web-app screenshots', () => {
     await TestHelper.createOrganization(user, {
       email: 'organization@' + user.profile.displayEmail.split('@')[1],
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '1230'
     })
     await TestHelper.createInvitation(user)
     const req = TestHelper.createRequest('/home')
