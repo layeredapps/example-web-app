@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.42
+@layeredapps/dashboard 0.0.57
 http://localhost:9200 (dashboard)
 http://localhost:3000 (application)
 
@@ -16,15 +16,15 @@ Special HTML files:
 @layeredapps/dashboard/redirect.html
 
 Dashboard modules:
-@layeredapps/organizations (1.0.17)
+@layeredapps/organizations (1.0.23)
 
 Server handlers:
 @layeredapps/dashboard/src/server/forward-api-requests.js
 
 Proxy handlers:
 @layeredapps/dashboard/src/proxy/x-account.js
-@layeredapps/organizations/src/proxy/organizations/x-memberships.js
-@layeredapps/organizations/src/proxy/organizations/x-organizations.js
+@layeredapps/organizations/src/proxy/x-memberships.js
+@layeredapps/organizations/src/proxy/x-organizations.js
 
 URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS - NODEJS ----------------------- HTML -------------------------
 /                                                     GUEST  FULLSCREEN                 static-page                    @layeredapps/organizations    
@@ -149,6 +149,8 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/organizations/delete-membership                               DELETE          @layeredapps/organizations                                   
 /api/user/organizations/delete-organization                             DELETE          @layeredapps/organizations                                   
 /api/user/organizations/invitation                                      GET             @layeredapps/organizations                                   
+/api/user/organizations/invitation-memberships                          GET             @layeredapps/organizations                                   
+/api/user/organizations/invitation-memberships-count                    GET             @layeredapps/organizations                                   
 /api/user/organizations/invitations                                     GET             @layeredapps/organizations                                   
 /api/user/organizations/invitations-count                               GET             @layeredapps/organizations                                   
 /api/user/organizations/membership                                      GET             @layeredapps/organizations                                   
@@ -160,6 +162,8 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/organizations/organization-membership                         GET             @layeredapps/organizations                                   
 /api/user/organizations/organizations                                   GET             @layeredapps/organizations                                   
 /api/user/organizations/organizations-count                             GET             @layeredapps/organizations                                   
+/api/user/organizations/secret-invitation                               GET             @layeredapps/organizations                                   
+/api/user/organizations/set-invitation-terminated                       PATCH           @layeredapps/organizations                                   
 /api/user/organizations/set-organization-owner                          PATCH           @layeredapps/organizations                                   
 /api/user/organizations/update-organization                             PATCH           @layeredapps/organizations                                   
 /api/user/profile                                                       GET             @layeredapps/dashboard                                       
@@ -182,3 +186,5 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/set-session-verified                                          PATCH           @layeredapps/dashboard                                       
 /api/user/update-profile                                                PATCH           @layeredapps/dashboard                                       
 /home                                                                                   static-page                    @layeredapps/organizations    
+
+2022-04-24T01:41:39.767Z

@@ -10,7 +10,7 @@
   "modules": [
     {
       "name": "@layeredapps/organizations",
-      "version": "1.0.17"
+      "version": "1.0.23"
     }
   ],
   "content": [],
@@ -19,8 +19,8 @@
   ],
   "proxy": [
     "@layeredapps/dashboard/src/proxy/x-account.js",
-    "@layeredapps/organizations/src/proxy/organizations/x-memberships.js",
-    "@layeredapps/organizations/src/proxy/organizations/x-organizations.js"
+    "@layeredapps/organizations/src/proxy/x-memberships.js",
+    "@layeredapps/organizations/src/proxy/x-organizations.js"
   ],
   "urls": {
     "/account/change-password": {
@@ -942,6 +942,18 @@
       "verbs": "DELETE",
       "authDescription": ""
     },
+    "/api/user/organizations/invitation-memberships-count": {
+      "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/invitation-memberships-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/invitation-memberships": {
+      "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/invitation-memberships.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
     "/api/user/organizations/invitation": {
       "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/invitation.js",
       "templateDescription": "",
@@ -1012,6 +1024,18 @@
       "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/organizations.js",
       "templateDescription": "",
       "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/secret-invitation": {
+      "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/secret-invitation.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/set-invitation-terminated": {
+      "jsFilePath": "/node_modules/@layeredapps/organizations/src/www/api/user/organizations/set-invitation-terminated.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
       "authDescription": ""
     },
     "/api/user/organizations/set-organization-owner": {
