@@ -29,8 +29,8 @@
     ],
     "proxy": [
       "@layeredapps/dashboard/src/proxy/x-account.js",
-      "@layeredapps/organizations/src/proxy/organizations/x-memberships.js",
-      "@layeredapps/organizations/src/proxy/organizations/x-organizations.js"
+      "@layeredapps/organizations/src/proxy/x-memberships.js",
+      "@layeredapps/organizations/src/proxy/x-organizations.js"
     ]
   }
 }
