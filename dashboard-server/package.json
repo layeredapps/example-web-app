@@ -25,7 +25,7 @@
       "@layeredapps/organizations"
     ],
     "server": [
-      "@layeredapps/dashboard/src/server/forward-api-requests.js"
+      "@layeredapps/dashboard/src/server/allow-api-requests-to-application.js"
     ],
     "proxy": [
       "@layeredapps/dashboard/src/proxy/x-account.js",
