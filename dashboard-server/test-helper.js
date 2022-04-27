@@ -10,8 +10,6 @@ module.exports = require('@layeredapps/organizations/test-helper.js')
 const applicationServer = require('../application-server/main.js')
 
 before(async () => {
-  delete (global.sitemap['/'])
-  delete (global.sitemap['/home'])
   await applicationServer.start(process.env.APPLICATION_SERVER_PORT, global.dashboardServer)
 })
 
