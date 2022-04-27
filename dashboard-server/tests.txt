@@ -20,14 +20,9 @@
       Port web server listens on
         ✔ default 8000
         ✔ Integer
-    ID_LENGTH
-      Length of random ID
-        ✔ default 8
-        ✔ Integer
-    ALLOW_PUBLIC_API
-      Allow HTTP access to /api
-        ✔ default false
-        ✔ Boolean
+    HOME_PATH
+      Alternative path for application home
+        ✔ String
     DELETE_DELAY
       Cool-down time in days to delete accounts
         ✔ default 7
@@ -113,9 +108,11 @@
       ✔ should not match invalid passwords
 
   internal-api/html
-    HTML#parseHTML
+    HTML#parse
       ✔ should reject invalid strings
       ✔ should return expected contents
+      ✔ should modify content link to /home
+      ✔ should modify navbar link to /home
     HTML#findOrCreateTableBody
       ✔ should require a document
       ✔ should require a table
@@ -238,12 +235,6 @@
       ✔ should read files recursively
       ✔ should exclude navbar files
       ✔ should exclude test files
-
-  internal-api/uuid
-    #random
-      ✔ should reject null length
-    #v4
-      ✔ should be a v4 uuid
 
   /account/change-password
     view
@@ -1640,7 +1631,7 @@
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
 
-  /account/organizations/index
+  /account/organizations
     before
       ✔ should bind data to req
     view
@@ -1723,7 +1714,7 @@
     submit
       ✔ should transfer ownership (screenshots)
 
-  /administrator/organizations/index
+  /administrator/organizations
     before
       ✔ should bind data to req
     view
@@ -2204,5 +2195,5 @@
     ✔ user 1 views shared post
 
 
-  1183 passing (38m)
+  1180 passing (39m)
 
