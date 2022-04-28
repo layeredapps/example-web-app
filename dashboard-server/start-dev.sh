@@ -1,5 +1,4 @@
-cd "$(dirname "$0")"
-
+NODE_ENV=development \
 APPLICATION_SERVER_TOKEN="this is the token" \
 APPLICATION_SERVER="http://localhost:8213" \
 DASHBOARD_SERVER="http://localhost:8207" \
