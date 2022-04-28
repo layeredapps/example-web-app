@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.64
+@layeredapps/dashboard 0.0.69
 http://localhost:9200 (dashboard)
 http://localhost:3000 (application)
 
@@ -16,7 +16,7 @@ Special HTML files:
 @layeredapps/dashboard/redirect.html
 
 Dashboard modules:
-@layeredapps/organizations (1.0.27)
+@layeredapps/organizations (1.0.28)
 
 Server handlers:
 @layeredapps/dashboard/src/server/allow-api-requests-to-application.js
@@ -187,4 +187,4 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/update-profile                                                PATCH           @layeredapps/dashboard                                       
 /home                                                                                   static-page                    @layeredapps/organizations    
 
-2022-04-27T03:15:00.719Z
+2022-04-28T04:59:07.242Z

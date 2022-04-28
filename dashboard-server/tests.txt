@@ -1,4 +1,8 @@
 
+> example-web-app@1.0.0 test
+> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/hpagent/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+
+
 
   index
     PAGE_SIZE
@@ -313,7 +317,6 @@
     view
       ✔ should present 3 days remaining message
       ✔ should present 7 days remaining message
-      ✔ should present instant deletion message
       ✔ should present instant delete message (screenshots)
 
   /account/delete-account
@@ -2195,5 +2198,5 @@
     ✔ user 1 views shared post
 
 
-  1180 passing (39m)
+  1179 passing (36m)
 

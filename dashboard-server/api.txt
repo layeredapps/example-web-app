@@ -1,6 +1,970 @@
-@layeredapps/dashboard 0.0.64
+@layeredapps/dashboard 0.0.69
 http://localhost:9200 (dashboard)
 http://localhost:3000 (application)
 
+|------------------------------------------------------------------|
+| /api/administrator/account                                       |
+| RETURNS--| REDACTS-------| EXCEPTIONS----------------------------|
+| object   | usernameHash  | invalid-accountid                     |
+|          | passwordHash  |  * unspecified querystring accountid  |
+|          | sessionKey    |  * invalid querystring accountid      |
+|----------|---------------|---------------------------------------|
 
-2022-04-27T03:15:00.720Z
+|--------------------------------------------------------------------------------------------|
+| /api/administrator/accounts                                                                |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | usernameHash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          | passwordHash  |                        |
+| optional querystring all (boolean)     |          | sessionKey    |                        |
+|----------------------------------------|----------|---------------|------------------------|
+
+|------------------------------------|
+| /api/administrator/accounts-count  |
+| RETURNS----------------------------|
+| integer                            |
+|------------------------------------|
+
+|--------------------------------------------------------------------------------------------|
+| /api/administrator/administrator-accounts                                                  |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | usernameHash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          | passwordHash  |                        |
+| optional querystring all (boolean)     |          | sessionKey    |                        |
+|----------------------------------------|----------|---------------|------------------------|
+
+|--------------------------------------------------|
+| /api/administrator/administrator-accounts-count  |
+| RETURNS------------------------------------------|
+| integer                                          |
+|--------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/create-reset-code                                                                                                  |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS-----------------------------------------| CONFIGURATION--------------------------|
+| required posted secret-code  | object   | invalid-accountid                                  | environment MINIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * unspecified querystring accountid               | environment MAXIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * invalid querystring accountid                   |                                        |
+|                              |          | invalid-secret-code                                |                                        |
+|                              |          |  * missing posted secret-code                      |                                        |
+|                              |          |  * invalid posted secret-code is not alphanumeric  |                                        |
+|                              |          | invalid-secret-code-length                         |                                        |
+|                              |          |  * invalid posted secret-code length               |                                        |
+|------------------------------|----------|----------------------------------------------------|----------------------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/administrator/delete-account                                              |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | boolean  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | receieves                         |
+|                                 |          |  * querystring accountid          |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------------------|
+| /api/administrator/deleted-accounts                                                        |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | usernameHash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          | passwordHash  |                        |
+| optional querystring all (boolean)     |          | sessionKey    |                        |
+|----------------------------------------|----------|---------------|------------------------|
+
+|--------------------------------------------|
+| /api/administrator/deleted-accounts-count  |
+| RETURNS------------------------------------|
+| querystring accountid                      |
+|--------------------------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/administrator/organizations/invitation                                          |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|------------------------------------|----------|--------------------------------------|
+
+|-----------------------------------------------------------------------------------|
+| /api/administrator/organizations/invitations                                      |
+| RECEIVES--------------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)         | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)          |          |                        |
+| optional querystring all (boolean)            |          |                        |
+| optional querystring accountid (string)       |          |                        |
+| optional querystring organizationid (string)  |          |                        |
+|-----------------------------------------------|----------|------------------------|
+
+|-----------------------------------------------------|
+| /api/administrator/organizations/invitations-count  |
+| RETURNS---------------------------------------------|
+| integer                                             |
+|-----------------------------------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/administrator/organizations/membership                                          |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring membershipid  | object   | invalid-membershipid                 |
+|                                    |          |  * missing querystring membershipid  |
+|                                    |          |  * invalid querystring membershipid  |
+|------------------------------------|----------|--------------------------------------|
+
+|-----------------------------------------------------------------------------------|
+| /api/administrator/organizations/memberships                                      |
+| RECEIVES--------------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)         | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)          |          |                        |
+| optional querystring all (boolean)            |          |                        |
+| optional querystring accountid (string)       |          |                        |
+| optional querystring organizationid (string)  |          |                        |
+|-----------------------------------------------|----------|------------------------|
+
+|-----------------------------------------------------|
+| /api/administrator/organizations/memberships-count  |
+| RETURNS---------------------------------------------|
+| integer                                             |
+|-----------------------------------------------------|
+
+|-------------------------------------------------------|
+| /api/administrator/organizations/organization         |
+| RETURNS--| EXCEPTIONS---------------------------------|
+| object   | invalid-organizationid                     |
+|          |  * unspecified querystring organizationid  |
+|          |  * invalid querystring organizationid      |
+|----------|--------------------------------------------|
+
+|------------------------------------------------------------------------------|
+| /api/administrator/organizations/organizations                               |
+| RECEIVES---------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                        |
+| optional querystring all (boolean)       |          |                        |
+| optional querystring accountid (string)  |          |                        |
+|------------------------------------------|----------|------------------------|
+
+|-------------------------------------------------------|
+| /api/administrator/organizations/organizations-count  |
+| RETURNS-----------------------------------------------|
+| integer                                               |
+|-------------------------------------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/administrator/profile                                                     |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring profileid  | object   | invalid-profileid                 |
+|                                 |          |  * missing querystring profileid  |
+|                                 |          |  * invalid querystring profileid  |
+|---------------------------------|----------|-----------------------------------|
+
+|------------------------------------------------------------------------------|
+| /api/administrator/profiles                                                  |
+| RECEIVES---------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                        |
+| optional querystring all (boolean)       |          |                        |
+| optional querystring accountid (string)  |          |                        |
+|------------------------------------------|----------|------------------------|
+
+|------------------------------------|
+| /api/administrator/profiles-count  |
+| RETURNS----------------------------|
+| integer                            |
+|------------------------------------|
+
+|---------------------------------------------------------------------------------------------|
+| /api/administrator/reset-account-administrator                                              |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
+| required querystring accountid  | object   | invalid-accountid                              |
+|                                 |          |  * missing querystring accountid               |
+|                                 |          |  * invalid querystring accountid               |
+|                                 |          | invalid-account                                |
+|                                 |          |  * accessing account is not owner              |
+|                                 |          |  * querystring accountid is not administrator  |
+|---------------------------------|----------|------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------|
+| /api/administrator/reset-code                                                              |
+| RECEIVES---------------------| RETURNS--| REDACTS---------| EXCEPTIONS---------------------|
+| required querystring codeid  | object   | secretCodeHash  | invalid-reset-codeid           |
+|                              |          |                 |  * missing querystring codeid  |
+|                              |          |                 |  * invalid querystring codeid  |
+|------------------------------|----------|-----------------|--------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/administrator/reset-codes                                                                 |
+| RECEIVES---------------------------------| RETURNS--| REDACTS---------| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | secretCodeHash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                 |                        |
+| optional querystring all (boolean)       |          |                 |                        |
+| optional querystring accountid (string)  |          |                 |                        |
+|------------------------------------------|----------|-----------------|------------------------|
+
+|---------------------------------------|
+| /api/administrator/reset-codes-count  |
+| RETURNS-------------------------------|
+| integer                               |
+|---------------------------------------|
+
+|--------------------------------------------------------------------------------------------|
+| /api/administrator/reset-session-key                                                       |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------------------|
+| required querystring accountid  | object   | invalid-accountid                             |
+|                                 |          |  * missing querystring accountid              |
+|                                 |          |  * invalid querystring accountid              |
+|                                 |          | invalid-account                               |
+|                                 |          |  * ineligible querystring account is deleted  |
+|                                 |          | requires                                      |
+|                                 |          |  * querystring accountid is not deleted       |
+|---------------------------------|----------|-----------------------------------------------|
+
+|---------------------------------------------------------------|
+| /api/administrator/session                                    |
+| RETURNS--| REDACTS----| EXCEPTIONS----------------------------|
+| object   | tokenHash  | invalid-sessionid                     |
+|          |            |  * unspecified querystring accountid  |
+|          |            |  * invalid querystring sessionid      |
+|----------|------------|---------------------------------------|
+
+|-------------------------------------------------------------------------------------------|
+| /api/administrator/sessions                                                               |
+| RECEIVES---------------------------------| RETURNS--| REDACTS----| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | tokenHash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |            |                        |
+| optional querystring all (boolean)       |          |            |                        |
+| optional querystring accountid (string)  |          |            |                        |
+|------------------------------------------|----------|------------|------------------------|
+
+|------------------------------------|
+| /api/administrator/sessions-count  |
+| RETURNS----------------------------|
+| integer                            |
+|------------------------------------|
+
+|------------------------------------------------------------------------|
+| /api/administrator/set-account-administrator                           |
+| RETURNS--| EXCEPTIONS--------------------------------------------------|
+| object   | invalid-accountid                                           |
+|          |  * unspecified querystring accountid                        |
+|          |  * invalid querystring accountid                            |
+|          | invalid-account                                             |
+|          |  * ineligible querystring account is already administrator  |
+|          | requires                                                    |
+|          |  * querystring accountid is not administrator               |
+|----------|-------------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------|
+| /api/administrator/set-account-deleted                                                       |
+| RETURNS--| EXCEPTIONS--------------------------------------------| CONFIGURATION-------------|
+| object   | invalid-accountid                                     | environment DELETE_DELAY  |
+|          |  * unspecified querystring accountid                  |                           |
+|          |  * invalid querystring accountid                      |                           |
+|          | invalid-account                                       |                           |
+|          |  * ineligible querystring account is already deleted  |                           |
+|          |  * querystring accountid is deleted                   |                           |
+|----------|-------------------------------------------------------|---------------------------|
+
+|--------------------------------------------------------------------------------------------------|
+| /api/administrator/set-owner-account                                                             |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------------------------|
+| required querystring accountid  | object   | invalid-accountid                                   |
+|                                 |          |  * missing querystring accountid                    |
+|                                 |          |  * invalid querystring accountid                    |
+|                                 |          | invalid-account                                     |
+|                                 |          |  * ineligible accessing account                     |
+|                                 |          |  * ineligible querystring account is already owner  |
+|                                 |          | requires                                            |
+|                                 |          |  * accessing account is owner                       |
+|                                 |          |  * querystring account is not owner                 |
+|                                 |          |  * querystring account is not deleted               |
+|---------------------------------|----------|-----------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/user/account                                                                              |
+| RECEIVES------------------------| RETURNS--| REDACTS-------| EXCEPTIONS------------------------|
+| required querystring accountid  | object   | usernameHash  | invalid-accountid                 |
+|                                 |          | passwordHash  |  * missing querystring accountid  |
+|                                 |          | sessionKey    |  * invalid querystring accountid  |
+|                                 |          |               | invalid-account                   |
+|                                 |          |               |  * ineligible accessing account   |
+|---------------------------------|----------|---------------|-----------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/create-account                                                                                                                    |
+| RECEIVES----------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------|
+| required posted dob                       | object   | invalid-username                  | environment MINIMUM_USERNAME_LENGTH              |
+| required posted phone                     |          |  * missing posted username        | environment MAXIMUM_USERNAME_LENGTH              |
+| required posted occupation                |          | duplicate-username                | environment MINIMUM_PASSWORD_LENGTH              |
+| required posted location                  |          |  * username already registered    | environment MAXIMUM_PASSWORD_LENGTH              |
+| required posted display-email             |          | invalid-username-length           | environment REQUIRE_PROFILE                      |
+| required posted contact-email             |          |  * posted username too short      | environment USER_PROFILE_FIELDS                  |
+| required posted company-name              |          |  * posted username too long       | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted display-name              |          | invalid-password                  | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted last-name                 |          |  * missing posted password        | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted first-name                |          | invalid-password-length           | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted password                  |          |  * posted password too short      | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted username                  |          |  * posted password too long       | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| optionally-required posted first-name     |          | invalid-first-name                | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| optionally-required posted last-name      |          |  * missing posted first-name      | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| optionally-required posted display-name   |          | invalid-first-name-length         | override req.userProfileFields                   |
+| optionally-required posted company-name   |          |  * posted first-name too short    |                                                  |
+| optionally-required posted contact-email  |          |  * posted first-name too long     |                                                  |
+| optionally-required posted display-email  |          | invalid-last-name                 |                                                  |
+| optionally-required posted location       |          |  * missing posted last-name       |                                                  |
+| optionally-required posted occupation     |          | invalid-last-name-length          |                                                  |
+| optionally-required posted phone          |          |  * posted last-name too short     |                                                  |
+| optionally-required posted dob            |          |  * posted last-name too long      |                                                  |
+|                                           |          | invalid-display-name              |                                                  |
+|                                           |          |  * missing posted display-name    |                                                  |
+|                                           |          | invalid-display-name-length       |                                                  |
+|                                           |          |  * posted display-name too short  |                                                  |
+|                                           |          |  * posted display-name too long   |                                                  |
+|                                           |          | invalid-company-name              |                                                  |
+|                                           |          |  * missing posted company-name    |                                                  |
+|                                           |          | invalid-contact-email             |                                                  |
+|                                           |          |  * missing posted contact-email   |                                                  |
+|                                           |          | invalid-display-email             |                                                  |
+|                                           |          |  * missing posted display-email   |                                                  |
+|                                           |          | invalid-location                  |                                                  |
+|                                           |          |  * missing posted location        |                                                  |
+|                                           |          | invalid-occupation                |                                                  |
+|                                           |          |  * missing posted occupation      |                                                  |
+|                                           |          | invalid-phone                     |                                                  |
+|                                           |          |  * missing posted phone           |                                                  |
+|                                           |          | invalid-dob                       |                                                  |
+|                                           |          |  * missing posted dob             |                                                  |
+|-------------------------------------------|----------|-----------------------------------|--------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/create-profile                                                                                                                    |
+| RECEIVES----------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------|
+| required posted dob                       | object   | invalid-accountid                 | environment USER_PROFILE_FIELDS                  |
+| required posted phone                     |          |  * missing querystring accountid  | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted occupation                |          |  * invalid querystring accountid  | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted location                  |          |  * ineligible accessing account   | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted display-email             |          | invalid-first-name                | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted contact-email             |          |  * missing posted first-name      | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted display-name              |          | invalid-first-name-length         | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted last-name                 |          |  * posted first-name too short    | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| required posted first-name                |          |  * posted first-name too long     | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| required querystring accountid            |          | invalid-last-name                 | override req.userProfileFields                   |
+| optionally-required posted first-name     |          |  * missing posted last-name       |                                                  |
+| optionally-required posted last-name      |          | invalid-last-name-length          |                                                  |
+| optionally-required posted display-name   |          |  * posted last-name too short     |                                                  |
+| optionally-required posted company-name   |          |  * posted last-name too long      |                                                  |
+| optionally-required posted contact-email  |          | invalid-display-name              |                                                  |
+| optionally-required posted display-email  |          |  * missing posted display-name    |                                                  |
+| optionally-required posted location       |          | invalid-display-name-length       |                                                  |
+| optionally-required posted occupation     |          |  * posted display-name too short  |                                                  |
+| optionally-required posted phone          |          |  * posted display-name too long   |                                                  |
+| optionally-required posted dob            |          | invalid-company-name-length       |                                                  |
+|                                           |          |  * posted company-name too short  |                                                  |
+|                                           |          |  * posted company-name too long   |                                                  |
+|                                           |          | invalid-contact-email             |                                                  |
+|                                           |          |  * missing posted contact-email   |                                                  |
+|                                           |          | invalid-display-email             |                                                  |
+|                                           |          |  * missing posted display-email   |                                                  |
+|                                           |          | invalid-location                  |                                                  |
+|                                           |          |  * missing posted location        |                                                  |
+|                                           |          | invalid-occupation                |                                                  |
+|                                           |          |  * missing posted occupation      |                                                  |
+|                                           |          | invalid-phone                     |                                                  |
+|                                           |          |  * missing posted phone           |                                                  |
+|                                           |          | invalid-dob                       |                                                  |
+|                                           |          |  * missing posted dob             |                                                  |
+|-------------------------------------------|----------|-----------------------------------|--------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/create-reset-code                                                                     |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-----------------------------------------|
+| required posted secret-code     | object   | invalid-accountid                                  |
+| required querystring accountid  |          |  * missing querystring accountid                   |
+|                                 |          |  * invalid querystring accountid                   |
+|                                 |          |  * ineligible accessing account                    |
+|                                 |          | invalid-secret-code                                |
+|                                 |          |  * missing posted secret-code                      |
+|                                 |          |  * invalid posted secret-code is not alphanumeric  |
+|                                 |          | invalid-secret-code-length                         |
+|                                 |          |  * posted secret code too short                    |
+|                                 |          |  * posted secret code too long                     |
+|---------------------------------|----------|----------------------------------------------------|
+
+|---------------------------------------------------------------------------------|
+| /api/user/create-session                                                        |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------|
+| required posted password               | object   | invalid-username            |
+| required posted username               |          |  * missing posted username  |
+| optional posted remember (hours|days)  |          | invalid-password            |
+|                                        |          |  * missing posted password  |
+|----------------------------------------|----------|-----------------------------|
+
+|---------------------------------------------------------------------------------------------------|
+| /api/user/delete-profile                                                                          |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-------------------------------------------|
+| required querystring profileid  | boolean  | invalid-profileid                                    |
+|                                 |          |  * missing querystring profileid                     |
+|                                 |          |  * invalid querystring profileid                     |
+|                                 |          | invalid-profile                                      |
+|                                 |          |  * querystring profileid is default contact profile  |
+|                                 |          | invalid-account                                      |
+|                                 |          |  * ineligible querystring profileid                  |
+|---------------------------------|----------|------------------------------------------------------|
+
+|-----------------------------------------------------------------------------|
+| /api/user/delete-reset-code                                                 |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring codeid  | boolean  | invalid-reset-codeid              |
+|                              |          |  * missing querystring codeid     |
+|                              |          |  * invalid querystring codeid     |
+|                              |          | invalid-account                   |
+|                              |          |  * ineligible querystring codeid  |
+|------------------------------|----------|-----------------------------------|
+
+|---------------------------------------------------------------------------------------------------|
+| /api/user/organizations/create-invitation                                                         |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required posted secret-code          | object   | invalid-organizationid                          |
+| required posted lifespan             |          |  * missing querystring organizationid           |
+| required querystring organizationid  |          |  * invalid querystring organizationid           |
+| required posted secret-code          |          | invalid-lifespan                                |
+|                                      |          |  * missing posted lifespan                      |
+|                                      |          |  * invalid posted lifespan                      |
+|                                      |          | invalid-secret-code                             |
+|                                      |          |  * missing posted secret-code                   |
+|                                      |          | invalid-secret-code-length                      |
+|                                      |          |  * posted secret-code too short                 |
+|                                      |          |  * posted secret-code too long                  |
+|                                      |          | invalid-account                                 |
+|                                      |          |  * accessing account is not organization owner  |
+|--------------------------------------|----------|-------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------|
+| /api/user/organizations/create-membership                                                          |
+| RECEIVES--------------------------| RETURNS--| EXCEPTIONS------------------------------------------|
+| required posted profileid         | object   | invalid-invitation                                  |
+| required posted secret-code       |          |  * invitation has been used                         |
+| required posted organization-pin  |          |  * invitation has been terminated                   |
+| required posted secret-code       |          |  * querystring invitationid is not open invitation  |
+| required posted profileid         |          | invalid-organization-pin                            |
+|                                   |          |  * missing posted organization-pin                  |
+|                                   |          |  * invalid posted organization-pin                  |
+|                                   |          | invalid-secret-code                                 |
+|                                   |          |  * missing posted secret-code                       |
+|                                   |          |  * invalid posted secret-code                       |
+|                                   |          | invalid-account                                     |
+|                                   |          |  * accessing account is organization owner          |
+|                                   |          |  * accessing account is organization member         |
+|                                   |          | invalid-profileid                                   |
+|                                   |          |  * missing posted profileid                         |
+|                                   |          |  * invalid posted profileid                         |
+|                                   |          | invalid-profile                                     |
+|                                   |          |  * ineligible posted profileid is missing fields    |
+|-----------------------------------|----------|-----------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/create-organization                                                     |
+| RECEIVES----------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
+| required posted profileid           | object   | invalid-organization-name                      |
+| required posted email               |          |  * missing posted name                         |
+| required posted name                |          | invalid-organization-name-length               |
+| required posted organization-email  |          |  * posted name too short                       |
+| required posted organization-name   |          |  * posted name too long                        |
+| required posted profileid           |          | invalid-organization-email                     |
+|                                     |          |  * missing posted email                        |
+|                                     |          |  * invalid posted email                        |
+|                                     |          | invalid-profile                                |
+|                                     |          |  * missing posted profileid                    |
+|                                     |          |  * invalid posted profileid                    |
+|                                     |          |  * ineligible posted profileid missing fields  |
+|-------------------------------------|----------|------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/delete-invitation                                                       |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring invitationid  | boolean  | invalid-invitationid                            |
+|                                    |          |  * missing querystring invitationid             |
+|                                    |          |  * invalid querystring invitationid             |
+|                                    |          | invalid-invitation                              |
+|                                    |          |  * querystring invitationid is used invitation  |
+|                                    |          | invalid-account                                 |
+|                                    |          |  * accessing account is not organization owner  |
+|------------------------------------|----------|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/delete-membership                                                                     |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS----------------------------------------------------|
+| required querystring membershipid  | boolean  | invalid-membershipid                                          |
+|                                    |          |  * missing querystring membershipid                           |
+|                                    |          |  * invalid querystring membershipid                           |
+|                                    |          | invalid-account                                               |
+|                                    |          |  * accessing account is not membership or organization owner  |
+|------------------------------------|----------|---------------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------|
+| /api/user/organizations/delete-organization                                                       |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring organizationid  | boolean  | invalid-organizationid                          |
+|                                      |          |  * missing querystring organizationid           |
+|                                      |          |  * invalid querystring organizationid           |
+|                                      |          | invalid-account                                 |
+|                                      |          |  * accessing account does not own organization  |
+|--------------------------------------|----------|-------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation                                                              |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                            |
+|                                    |          |  * missing querystring invitationid             |
+|                                    |          |  * invalid querystring invitationid             |
+|                                    |          | invalid-account                                 |
+|                                    |          |  * accessing account is not organization owner  |
+|------------------------------------|----------|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation-memberships                                                                |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION----------|
+| required querystring invitationid  | array    | invalid-invitationid                 | environment PAGE_SIZE  |
+|                                    |          |  * missing querystring invitationid  |                        |
+|                                    |          |  * invalid querystring invitationid  |                        |
+|                                    |          | invalid-account                      |                        |
+|                                    |          |  * ineligible accessing account      |                        |
+|------------------------------------|----------|--------------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation-memberships-count                                 |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | integer  | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|                                    |          | invalid-account                      |
+|                                    |          |  * ineligible accessing account      |
+|------------------------------------|----------|--------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/invitations                                                                                   |
+| RECEIVES--------------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid                | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)         |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)          |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)            |          | invalid-account                   |                        |
+| optional querystring organizationid (string)  |          |  * ineligible accessing account   |                        |
+|-----------------------------------------------|----------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/organizations/invitations-count                                      |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/membership                                                                         |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS-------------------------------------------------|
+| required querystring membershipid  | object   | invalid-membershipid                                       |
+|                                    |          |  * missing querystring membershipid                        |
+|                                    |          |  * invalid querystring membershipid                        |
+|                                    |          | invalid-account                                            |
+|                                    |          |  * accessing account must be organization member or owner  |
+|------------------------------------|----------|------------------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/memberships                                                                                   |
+| RECEIVES--------------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid                | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)         |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)          |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)            |          | invalid-account                   |                        |
+| optional querystring organizationid (string)  |          |  * ineligible accessing account   |                        |
+|-----------------------------------------------|----------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/organizations/memberships-count                                      |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/user/organizations/open-invitation                                              |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|                                    |          | invalid-invitation                   |
+|                                    |          |  * querystring invitationid is used  |
+|------------------------------------|----------|--------------------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/user/organizations/open-invitation-organization                                 |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|                                    |          | invalid-invitation                   |
+|                                    |          |  * querystring invitationid is used  |
+|------------------------------------|----------|--------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------|
+| /api/user/organizations/organization                                                                |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS----------------------------------------|
+| required querystring organizationid  | object   | invalid-organizationid                            |
+|                                      |          |  * missing querystring organizationid             |
+|                                      |          |  * invalid querystring organizationid             |
+|                                      |          | invalid-account                                   |
+|                                      |          |  * accessing account must be organization member  |
+|--------------------------------------|----------|---------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------|
+| /api/user/organizations/organization-membership                                                     |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS----------------------------------------|
+| required querystring organizationid  | object   | invalid-organizationid                            |
+|                                      |          |  * missing querystring organizationid             |
+|                                      |          |  * invalid querystring organizationid             |
+|                                      |          | invalid-account                                   |
+|                                      |          |  * accessing account must be organization member  |
+|--------------------------------------|----------|---------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/organizations                                                                          |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          | invalid-account                   |                        |
+|                                        |          |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/organizations/organizations-count                                    |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|----------------------------------------------------------------------------------------------|
+| /api/user/organizations/secret-invitation                                                    |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS-------------------------------|
+| required querystring organization-pin  | object   | invalid-secret-code                      |
+| required querystring secret-code       |          |  * missing querystring secret-code       |
+|                                        |          |  * invalid querystring secret-code       |
+|                                        |          | invalid-organization-pin                 |
+|                                        |          |  * missing querystring organization-pin  |
+|                                        |          |  * invalid querystring organization-pin  |
+|                                        |          | invalid-invitation                       |
+|                                        |          |  * querystring invitationid is used      |
+|----------------------------------------|----------|------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/set-invitation-terminated                                               |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                            |
+|                                    |          |  * missing querystring invitationid             |
+|                                    |          |  * invalid querystring invitationid             |
+|                                    |          | invalid-account                                 |
+|                                    |          |  * accessing account is not organization owner  |
+|                                    |          | invalid-invitation                              |
+|                                    |          |  * invitation is not multi-use                  |
+|                                    |          |  * invitation is already terminated             |
+|------------------------------------|----------|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------|
+| /api/user/organizations/set-organization-owner                                                    |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring organizationid  | object   | invalid-organizationid                          |
+|                                      |          |  * missing querystring organizationid           |
+|                                      |          |  * invalid querystring organizationid           |
+|                                      |          | invalid-accountid                               |
+|                                      |          |  * posted accountid is missing                  |
+|                                      |          |  * posted accountid is invalid                  |
+|                                      |          | invalid-account                                 |
+|                                      |          |  * accessing account is not organization owner  |
+|                                      |          |  * posted accountid is organization owner       |
+|                                      |          |  * posted accountid is not member               |
+|--------------------------------------|----------|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------|
+| /api/user/organizations/update-organization                                                       |
+| RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required posted email                | object   | invalid-organizationid                          |
+| required posted name                 |          |  * missing querystring organizationid           |
+| required posted pin                  |          |  * invalid querystring organizationid           |
+| required querystring organizationid  |          | invalid-account                                 |
+| required posted name                 |          |  * accessing account is not organization owner  |
+| required posted email                |          | invalid-pin                                     |
+| required posted pin                  |          |  * missing posted pin                           |
+|                                      |          |  * invalid posted pin is not alphanumeric       |
+|                                      |          | duplicate-pin                                   |
+|                                      |          |  * duplicate posted pin                         |
+|                                      |          | invalid-pin-length                              |
+|                                      |          |  * posted pin is too short                      |
+|                                      |          |  * posted pin is too long                       |
+|                                      |          | invalid-organization-name                       |
+|                                      |          |  * missing posted name                          |
+|                                      |          | invalid-organization-name-length                |
+|                                      |          |  * posted name is too short                     |
+|                                      |          |  * posted name is too long                      |
+|                                      |          | invalid-organization-email                      |
+|                                      |          |  * missing posted email                         |
+|                                      |          |  * invalid posted email                         |
+|--------------------------------------|----------|-------------------------------------------------|
+
+|-----------------------------------------------------------------------------------|
+| /api/user/profile                                                                 |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring profileid  | object   | invalid-profileid                    |
+|                                 |          |  * missing querystring profileid     |
+|                                 |          |  * invalid querystring profileid     |
+|                                 |          | invalid-account                      |
+|                                 |          |  * ineligible querystring profileid  |
+|---------------------------------|----------|--------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------|
+| /api/user/profiles                                                                                             |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          | invalid-account                   |                        |
+|                                        |          |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/profiles-count                                                       |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|-----------------------------------------------------------------------------------------------|
+| /api/user/reset-account-deleted                                                               |
+| RECEIVES------------------| RETURNS--| EXCEPTIONS---------------------------------------------|
+| required posted password  | object   | invalid-username                                       |
+| required posted username  |          |  * missing posted username                             |
+|                           |          |  * invalid posted username                             |
+|                           |          | invalid-password                                       |
+|                           |          |  * missing posted password                             |
+|                           |          |  * invalid posted password                             |
+|                           |          | invalid-account                                        |
+|                           |          |  * credentialed account is not scheduled for deletion  |
+|---------------------------|----------|--------------------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/user/reset-account-password                                           |
+| RECEIVES----------------------| RETURNS--| EXCEPTIONS----------------------|
+| required posted secret-code   | boolean  | invalid-username                |
+| required posted new-password  |          |  * missing posted username      |
+| required posted username      |          |  * invalid posted username      |
+|                               |          | invalid-password                |
+|                               |          |  * missing posted new-password  |
+|                               |          | invalid-secret-code             |
+|                               |          |  * missing posted secret-code   |
+|                               |          | invalid-reset-code              |
+|                               |          |  * invalid posted secret-code   |
+|-------------------------------|----------|---------------------------------|
+
+|-----------------------------------------------------------------------------------------------|
+| /api/user/reset-code                                                                          |
+| RECEIVES---------------------| RETURNS--| REDACTS---------| EXCEPTIONS------------------------|
+| required querystring codeid  | object   | secretCodeHash  | invalid-reset-codeid              |
+|                              |          |                 |  * missing querystring codeid     |
+|                              |          |                 |  * invalid querystring codeid     |
+|                              |          |                 | invalid-account                   |
+|                              |          |                 |  * ineligible querystring codeid  |
+|------------------------------|----------|-----------------|-----------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/reset-codes                                                                                                            |
+| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | secretCodeHash  | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |                 |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |                 |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          |                 | invalid-account                   |                        |
+|                                        |          |                 |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/reset-codes-count                                                    |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/reset-session-key                                                    |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | boolean  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/user/session                                                                              |
+| RECEIVES------------------------| RETURNS--| REDACTS----| EXCEPTIONS---------------------------|
+| required querystring sessionid  | object   | tokenHash  | invalid-sessionid                    |
+|                                 |          |            |  * missing querystring sessionid     |
+|                                 |          |            |  * invalid querystring sessionid     |
+|                                 |          |            | invalid-account                      |
+|                                 |          |            |  * ineligible querystring sessionid  |
+|---------------------------------|----------|------------|--------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------|
+| /api/user/sessions                                                                                             |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          | invalid-account                   |                        |
+|                                        |          |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/sessions-count                                                       |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|---------------------------------|----------|-----------------------------------|
+
+|------------------------------------------------------------------------------------------------------------|
+| /api/user/set-account-deleted                                                                              |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION-------------|
+| required posted password        | object   | invalid-accountid                 | environment DELETE_DELAY  |
+| required querystring accountid  |          |  * missing querystring accountid  |                           |
+|                                 |          |  * invalid querystring accountid  |                           |
+|                                 |          | invalid-account                   |                           |
+|                                 |          |  * ineligible accessing account   |                           |
+|                                 |          | invalid-password                  |                           |
+|                                 |          |  * missing posted password        |                           |
+|                                 |          |  * invalid posted password        |                           |
+|---------------------------------|----------|-----------------------------------|---------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/set-account-password                                                 |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required posted new-password    | object   | invalid-accountid                 |
+| required posted password        |          |  * missing querystring accountid  |
+| required querystring accountid  |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|                                 |          | invalid-password                  |
+|                                 |          |  * missing posted password        |
+|                                 |          |  * invalid posted password        |
+|                                 |          | invalid-new-password              |
+|                                 |          |  * missing posted new-password    |
+|                                 |          | invalid-new-password-length       |
+|                                 |          |  * posted new-password too short  |
+|                                 |          |  * posted new-password too long   |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/set-account-profile                                                  |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required posted profileid       | object   | invalid-accountid                 |
+| required querystring accountid  |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|                                 |          | invalid-profileid                 |
+|                                 |          |  * missing posted profileid       |
+|                                 |          |  * invalid posted profileid       |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/set-account-username                                                 |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required posted new-username    | object   | invalid-accountid                 |
+| required posted password        |          |  * missing querystring accountid  |
+| required querystring accountid  |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|                                 |          | invalid-password                  |
+|                                 |          |  * missing posted password        |
+|                                 |          |  * invalid posted password        |
+|                                 |          | invalid-new-username              |
+|                                 |          |  * missing posted new-username    |
+|                                 |          | invalid-new-username-length       |
+|                                 |          |  * posted new-username too short  |
+|                                 |          |  * posted new-username too long   |
+|---------------------------------|----------|-----------------------------------|
+
+|-----------------------------------------------------------------------------------------|
+| /api/user/set-session-ended                                                             |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------------|
+| required querystring sessionid  | object   | invalid-sessionid                          |
+|                                 |          |  * missing querystring sessionid           |
+|                                 |          |  * invalid querystring sessionid           |
+|                                 |          | invalid-session                            |
+|                                 |          |  * querystring sessionid is already ended  |
+|                                 |          | invalid-account                            |
+|                                 |          |  * ineligible querystring sessionid        |
+|---------------------------------|----------|--------------------------------------------|
+
+|-----------------------------------------------------------------------------------|
+| /api/user/set-session-verified                                                    |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring sessionid  | object   | invalid-sessionid                    |
+|                                 |          |  * missing querystring sessionid     |
+|                                 |          |  * invalid querystring sessionid     |
+|                                 |          | invalid-account                      |
+|                                 |          |  * ineligible querystring sessionid  |
+|---------------------------------|----------|--------------------------------------|
+
+|------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/update-profile                                                                                                                       |
+| RECEIVES----------------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------|
+| required posted dob                       | object   | invalid-profileid                    | environment USER_PROFILE_FIELDS                  |
+| required posted phone                     |          |  * missing querystring profileid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted occupation                |          |  * invalid querystring profileid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |
+| required posted location                  |          |  * ineligible querystring profileid  | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted display-email             |          | invalid-first-name                   | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |
+| required posted contact-email             |          |  * missing posted first-name         | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted company-name              |          | invalid-first-name-length            | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |
+| required posted display-name              |          |  * posted first-name too short       | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| required posted last-name                 |          |  * posted first-name too long        | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |
+| required posted first-name                |          | invalid-last-name                    | override req.userProfileFields                   |
+| required querystring profileid            |          |  * missing posted last-name          |                                                  |
+| optionally-required posted first-name     |          | invalid-last-name-length             |                                                  |
+| optionally-required posted last-name      |          |  * posted last-name too short        |                                                  |
+| optionally-required posted display-name   |          |  * posted last-name too long         |                                                  |
+| optionally-required posted company-name   |          | invalid-display-name                 |                                                  |
+| optionally-required posted contact-email  |          |  * missing posted display-name       |                                                  |
+| optionally-required posted display-email  |          | invalid-display-name-length          |                                                  |
+| optionally-required posted location       |          |  * posted display-name too short     |                                                  |
+| optionally-required posted occupation     |          |  * posted display-name too long      |                                                  |
+| optionally-required posted phone          |          | invalid-company-name                 |                                                  |
+| optionally-required posted dob            |          |  * missing posted company-name       |                                                  |
+|                                           |          | invalid-company-name-length          |                                                  |
+|                                           |          |  * posted company-name too short     |                                                  |
+|                                           |          |  * posted company-name too long      |                                                  |
+|                                           |          | invalid-contact-email                |                                                  |
+|                                           |          |  * missing posted contact-email      |                                                  |
+|                                           |          | invalid-display-email                |                                                  |
+|                                           |          |  * missing posted display-email      |                                                  |
+|                                           |          | invalid-location                     |                                                  |
+|                                           |          |  * missing posted location           |                                                  |
+|                                           |          | invalid-occupation                   |                                                  |
+|                                           |          |  * missing posted occupation         |                                                  |
+|                                           |          | invalid-phone                        |                                                  |
+|                                           |          |  * missing posted phone              |                                                  |
+|                                           |          | invalid-dob                          |                                                  |
+|                                           |          |  * missing posted dob                |                                                  |
+|-------------------------------------------|----------|--------------------------------------|--------------------------------------------------|
+
+
+2022-04-28T04:59:07.251Z
