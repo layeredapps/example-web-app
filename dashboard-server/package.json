@@ -26,7 +26,7 @@
     "puppeteer": "latest"
   },
   "dashboard": {
-    "title": "Example web app",
+    "title": "Web app",
     "modules": [
       "@layeredapps/organizations"
     ],

@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.69
+@layeredapps/dashboard 0.0.70
 http://localhost:9200 (dashboard)
 http://localhost:3000 (application)
 
@@ -187,4 +187,4 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/update-profile                                                PATCH           @layeredapps/dashboard                                       
 /home                                                                                   static-page                    @layeredapps/organizations    
 
-2022-04-28T04:59:07.242Z
+2022-04-29T07:26:14.828Z
