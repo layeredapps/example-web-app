@@ -1,6 +1,6 @@
 
 > example-web-app@1.0.0 test
-> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=dashboard mocha --ignore 'node_modules/hpagent/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+> PORT=50004 NODE_ENV=testing STORAGE=sqlite DATABASE=dashboard mocha --ignore 'node_modules/hpagent/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
 
@@ -12,6 +12,9 @@
     DASHBOARD_SERVER
       URL of dashboard server
         ✔ Address
+    DASHBOARD_SESSION_KEY
+      An application-level secret for user session tokens
+        ✔ String
     DOMAIN
       Domain of server
         ✔ default unset
@@ -49,9 +52,13 @@
       Disable UI (not API) for registering
         ✔ default unset
         ✔ Boolean
+    MAXIMUM_POST_DATA_LENGTH
+      Largest POST payload accepted in bytes
+        ✔ default 2000000
+        ✔ Integer
     MINIMUM_PASSWORD_LENGTH
       Shortest password length
-        ✔ default 1
+        ✔ default 6
         ✔ Integer
     MAXIMUM_PASSWORD_LENGTH
       Longest password length
@@ -59,7 +66,7 @@
         ✔ Integer
     MINIMUM_USERNAME_LENGTH
       Shortest username length
-        ✔ default 1
+        ✔ default 6
         ✔ Integer
     MAXIMUM_USERNAME_LENGTH
       Longest username length
@@ -91,6 +98,12 @@
       ✔ should remap urls to object
       ✔ should capitalize the last segment
       ✔ should capitalize hyphenated last segment
+
+  content/insert-csrf-token
+    page
+      ✔ should add CSRF token to input[name=csrf-token]
+    template
+      ✔ should add CSRF token to input[name=csrf-token]
 
   internal-api/format
     Format#parseDate
@@ -250,6 +263,8 @@
       ✔ invalid-new-password-length
       ✔ invalid-confirm-password
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/change-username
     view
@@ -260,6 +275,8 @@
       ✔ invalid-new-username
       ✔ invalid-new-username-length
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/create-profile
     view
@@ -302,6 +319,8 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/create-reset-code
     view
@@ -312,6 +331,8 @@
       ✔ invalid-secret-code (missing)
       ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/delete-account-complete
     view
@@ -326,29 +347,32 @@
       ✔ should mark account deleted (screenshots)
     errors
       ✔ invalid-password
+      ✔ invalid-csrf-token
 
   /account/delete-profile
     before
       ✔ should bind data
-    exceptions
-      ✔ invalid-profileid
-      ✔ invalid-profile
-      ✔ invalid-account
     view
       ✔ should present the form
     submit
       ✔ should delete profile (screenshots)
+    errors
+      ✔ invalid-profileid
+      ✔ invalid-profile
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/delete-reset-code
     before
       ✔ should bind data
-    exceptions
-      ✔ invalid-reset-codeid
-      ✔ invalid-account
     view
       ✔ should present the form
     submit
       ✔ should delete reset code (screenshots)
+    errors
+      ✔ invalid-reset-codeid
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/edit-profile
     view
@@ -391,12 +415,18 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-profileid
+      ✔ invalid-account
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/end-all-sessions
     view
       ✔ should present the form
     submit
       ✔ should generate a new session key (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/end-session
     before
@@ -406,6 +436,11 @@
     submit
       ✔ should end the session (screenshots)
       ✔ should end current session
+    errors
+      ✔ invalid-sessionid
+      ✔ invalid-session
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account
     view
@@ -419,6 +454,9 @@
     view
       ✔ should present the profile table (screenshots)
       ✔ should show fields if data exists
+    errors
+      ✔ invalid-profileid
+      ✔ invalid-account
 
   /account/profiles
     before
@@ -427,7 +465,6 @@
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
-      ✔ should show fields if data exists
 
   /account/register
     view
@@ -498,6 +535,9 @@
       ✔ should bind data to req
     view
       ✔ should present the reset code table (screenshots)
+    errors
+      ✔ invalid-reset-codeid
+      ✔ invalid-account
 
   /account/reset-codes
     before
@@ -522,6 +562,9 @@
       ✔ should bind data to req
     view
       ✔ should present the session table (screenshots)
+    errors
+      ✔ invalid-sessionid
+      ✔ invalid-account
 
   /account/sessions
     before
@@ -539,6 +582,10 @@
       ✔ should present the form
     submit
       ✔ should set the profile as default (screenshots)
+    errors
+      ✔ invalid-profileid
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/signin
     view
@@ -572,6 +619,8 @@
     errors
       ✔ invalid-username
       ✔ invalid-password
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /administrator/account-profiles
     before
@@ -581,6 +630,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account-reset-codes
     before
@@ -590,6 +641,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account-sessions
     before
@@ -599,6 +652,8 @@
       ✔ should return one page
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-accountid
 
   /administrator/account
     before
@@ -609,6 +664,8 @@
       ✔ should present the sessions table
       ✔ should hide empty reset codes table
       ✔ should present a populated reset codes table
+    errors
+      ✔ invalid-accountid
 
   /administrator/accounts
     before
@@ -634,7 +691,12 @@
     view
       ✔ should present the form
     submit
-      ✔ should apply account update (screenshots)
+      ✔ should assign administrator (screenshots)
+    errors
+      ✔ invalid-account-deleting
+      ✔ invalid-account-administrator
+      ✔ invalid-accountid
+      ✔ invalid-csrf-token
 
   /administrator/create-reset-code
     before
@@ -647,16 +709,23 @@
       ✔ invalid-secret-code (missing)
       ✔ invalid-secret-code is not alphanumeric
       ✔ invalid-secret-code-length
+      ✔ invalid-accountid
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /administrator/delete-account
-    exceptions
-      ✔ should reject invalid accountid
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should immediately delete (screenshots)
+    errors
+      ✔ invalid-account-not-deleting
+      ✔ invalid-owner-account
+      ✔ invalid-administrator-account
+      ✔ invalid-accountid
+      ✔ invalid-csrf-token
 
   /administrator/delete-schedule
     before
@@ -677,6 +746,8 @@
     view
       ✔ should present the profile table (screenshots)
       ✔ should show fields if data exists
+    errors
+      ✔ invalid-profileid
 
   /administrator/profiles
     before
@@ -685,13 +756,14 @@
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
-      ✔ should show fields if data exists
 
   /administrator/reset-code
     before
       ✔ should bind data to req
     view
       ✔ should present the reset code table (screenshots)
+    errors
+      ✔ invalid-codeid
 
   /administrator/reset-codes
     before
@@ -709,6 +781,9 @@
       ✔ should present the form
     submit
       ✔ should reset session key (screenshots)
+    errors
+      ✔ invalid-accountid
+      ✔ invalid-csrf-token
 
   /administrator/revoke-administrator
     before
@@ -717,6 +792,9 @@
       ✔ should present the form
     submit
       ✔ should revoke administrator status (screenshots)
+    errors
+      ✔ invalid-accountid
+      ✔ invalid-account-administrator
 
   /administrator/schedule-account-delete
     before
@@ -725,12 +803,18 @@
       ✔ should present the form
     submit
       ✔ should schedule account for deletion (screenshots)
+    errors
+      ✔ invalid-accountid
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /administrator/session
     before
       ✔ should bind data to req
     view
       ✔ should present the session table (screenshots)
+    errors
+      ✔ invalid-sessionid
 
   /administrator/sessions
     before
@@ -748,6 +832,12 @@
       ✔ should present the form
     submit
       ✔ should change ownership (screenshots)
+    errors
+      ✔ invalid-accountid
+      ✔ invalid-account
+      ✔ invalid-account-receiving
+      ✔ invalid-account-receiving
+      ✔ invalid-csrf-token
 
   /api/administrator/account
     exceptions
@@ -1517,64 +1607,143 @@
     view
       ✔ should present the form
       ✔ should exclude invalid profiles
+      ✔ should have elements for full-name
+      ✔ should have elements for display-name
+      ✔ should have elements for contact-email
+      ✔ should have elements for display-email
+      ✔ should have elements for dob
+      ✔ should have elements for phone
+      ✔ should have elements for occupation
+      ✔ should have elements for location
+      ✔ should have elements for company-name
+      ✔ should have elements for website
     submit
       ✔ should accept valid existing profile
       ✔ should accept invitation and create profile (screenshots)
+      ✔ should accept invitation and create profile with full-name
+      ✔ should accept invitation and create profile with display-name
+      ✔ should accept invitation and create profile with contact-email
+      ✔ should accept invitation and create profile with display-email
+      ✔ should accept invitation and create profile with dob in YYYY-MM-DD
+      ✔ should accept invitation and create profile with dob in MM-DD-YYYY
+      ✔ should accept invitation and create profile with phone
+      ✔ should accept invitation and create profile with occupation
+      ✔ should accept invitation and create profile with location
+      ✔ should accept invitation and create profile with company-name
+      ✔ should accept invitation and create profile with website
     errors
       ✔ invalid-account
+      ✔ invalid-first-name
+      ✔ invalid-first-name-length
+      ✔ invalid-last-name
+      ✔ invalid-last-name-length
+      ✔ invalid-contact-email
+      ✔ invalid-display-email
+      ✔ invalid-display-name
+      ✔ invalid-display-name-length
+      ✔ invalid-dob
+      ✔ invalid-phone
+      ✔ invalid-occupation
+      ✔ invalid-location
+      ✔ invalid-company-name
+      ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/create-invitation
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should create invitation (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/create-organization
     view
       ✔ should present the form
+      ✔ should have elements for full-name
+      ✔ should have elements for display-name
+      ✔ should have elements for contact-email
+      ✔ should have elements for display-email
+      ✔ should have elements for dob
+      ✔ should have elements for phone
+      ✔ should have elements for occupation
+      ✔ should have elements for location
+      ✔ should have elements for company-name
+      ✔ should have elements for website
     submit
       ✔ should accept valid existing profile
-      ✔ should create organization (screenshots)
+      ✔ should create organization and new profile (screenshots)
+      ✔ should create organization and new profile with full-name
+      ✔ should create organization and new profile with display name
+      ✔ should create organization and new profile with contact-email
+      ✔ should create organization and new profile with display-email
+      ✔ should create organization and new profile with dob in YYYY-MM-DD
+      ✔ should create organization and new profile with dob in MM-DD-YYYY
+      ✔ should create organization and new profile with phone
+      ✔ should create organization and new profile with occupation
+      ✔ should create organization and new profile with location
+      ✔ should create organization and new profile with company-name
+      ✔ should create organization and new profile with website
     errors
       ✔ invalid-pin
       ✔ duplicate-pin
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ invalid-first-name
+      ✔ invalid-first-name-length
+      ✔ invalid-last-name
+      ✔ invalid-last-name-length
+      ✔ invalid-contact-email
+      ✔ invalid-display-email
+      ✔ invalid-display-name
+      ✔ invalid-display-name-length
+      ✔ invalid-dob
+      ✔ invalid-phone
+      ✔ invalid-occupation
+      ✔ invalid-location
+      ✔ invalid-company-name
+      ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-invitation
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data
     view
       ✔ should present the form
     submit
       ✔ should delete invitation (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-membership
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should delete membership (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-organization
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should delete organization (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/organizations/edit-membership-profile
     view
@@ -1617,10 +1786,10 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/edit-organization
-    exceptions
-      ✔ should require owner
     before
       ✔ should bind data to req
     view
@@ -1633,6 +1802,9 @@
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ should require owner
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations
     before
@@ -1643,18 +1815,22 @@
 
   /account/organizations/invitation
     before
-      ✔ should require owner
       ✔ should bind data to req
     view
       ✔ should have row for invitation (screenshots)
+    errors
+      ✔ invalid-account
 
   /account/organizations/membership
     before
-      ✔ should reject non-member
       ✔ should bind data to req
     view
       ✔ should have row for membership (screenshots)
       ✔ should show profile fields if data exists
+    errors
+      ✔ invalid-membershipid
+      ✔ invalid-organizationid
+      ✔ invalid-account
 
   /account/organizations/memberships
     before
@@ -1667,12 +1843,13 @@
 
   /account/organizations/organization-invitations
     before
-      ✔ should require owner
       ✔ should bind data to req
     view
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-account
 
   /account/organizations/organization-memberships
     before
@@ -1684,10 +1861,11 @@
 
   /account/organizations/organization
     before
-      ✔ should reject non-member
       ✔ should bind data to req
     view
       ✔ should have row for organization (screenshots)
+    errors
+      ✔ invalid-account
 
   /account/organizations/organizations
     before
@@ -1698,24 +1876,26 @@
       ✔ should change offset
 
   /account/organizations/revoke-membership
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should delete membership (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /account/organizations/transfer-organization
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
       ✔ should present the form
     submit
       ✔ should transfer ownership (screenshots)
+    errors
+      ✔ invalid-account
+      ✔ invalid-csrf-token
 
   /administrator/organizations
     before
@@ -2198,5 +2378,5 @@
     ✔ user 1 views shared post
 
 
-  1179 passing (36m)
+  1330 passing (37m)
 
