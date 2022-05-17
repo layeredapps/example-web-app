@@ -1,4 +1,4 @@
-const crpyto = require('crypto')
+const crypto = require('crypto')
 const { Sequelize, Model, DataTypes } = require('sequelize')
 const validExtensions = [
   'bash', 'coffee', 'cpp', 'css', 'pas',
