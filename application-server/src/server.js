@@ -85,11 +85,13 @@ async function staticFile (req, res) {
     return res.end(blob)
   }
   if (!fs.existsSync(filePath)) {
-    return throw404(req, res)
+    res.statusCode = 404
+    return res.end()
   }
   const stat = fs.statSync(filePath)
   if (stat.isDirectory()) {
-    return throw404(req, res)
+    res.statusCode = 404
+    return res.end()
   }
   blob = fs.readFileSync(filePath)
   fileCache[filePath] = blob
@@ -126,12 +128,18 @@ async function receiveRequest (req, res) {
     req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
   }
   req.urlPath = req.url.split('?')[0]
-  if (req.urlPath === '/') {
+  if (req.urlPath === '/' || req.urlPath === '/index.html') {
     res.setHeader('content-type', 'text/html')
     return res.end(indexPage)
   }
   if (req.urlPath === '/favicon.ico' ||
       req.urlPath === '/robots.txt' ||
+      req.urlPath === '/stripe-element-style.json' ||
+      req.urlPath === '/template.html' ||
+      req.urlPath === '/error.html' ||
+      req.urlPath === '/redirect.html' ||
+      req.urlPath === '/menu-administrator.html' ||
+      req.urlPath === '/menu-account.html' ||
       req.urlPath.startsWith('/public/')) {
     return staticFile(req, res)
   }
@@ -156,18 +164,23 @@ async function receiveRequest (req, res) {
   if (!req.accountid) {
     return throw511(req, res)
   }
+  const user = {
+    account: req.account || 'guest',
+    session: req.session || 'guest'
+  }
+  if (req.organizations) {
+    user.organizations = req.organizations || []
+  }
+  if (req.memberships) {
+    user.memberships = req.memberships || []
+  }
+  delete (user.account.passwordHash)
+  delete (user.account.usernameHash)
+  delete (user.session.sessionHash)
+  delete (user.session.sessionKey)
+  delete (user.session.sessionKeyNumber)
   if (req.urlPath === '/home') {
     res.setHeader('content-type', 'text/html')
-    const user = {
-      account: req.account,
-      session: req.session
-    }
-    if (req.organizations) {
-      user.organizations = req.organizations
-    }
-    if (req.memberships) {
-      user.memberships = req.memberships
-    }
     const injectJS = [`window.user = ${JSON.stringify(user)}`]
     if (global.publicDomain) {
       injectJS.push(`window.publicDomain = "${global.publicDomain}"</script>`)
