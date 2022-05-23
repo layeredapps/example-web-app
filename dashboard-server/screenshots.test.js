@@ -119,7 +119,7 @@ describe('example-web-app screenshots', () => {
     global.userProfileFields = ['display-name', 'display-email']
     global.membershipProfileFields = ['display-name', 'display-email']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {
@@ -144,7 +144,7 @@ describe('example-web-app screenshots', () => {
           invitationid: user.invitation.invitationid,
           'organization-pin': '8879',
           'secret-code': user.invitation.secretCode,
-          'display-name': user2.profile.firstName,
+          'display-name': user2.profile.fullName,
           'display-email': user2.profile.contactEmail
         }
       }
@@ -158,7 +158,7 @@ describe('example-web-app screenshots', () => {
     global.userProfileFields = ['display-name', 'display-email']
     global.membershipProfileFields = ['display-name', 'display-email']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {
@@ -171,7 +171,7 @@ describe('example-web-app screenshots', () => {
     const user2 = await TestHelper.createUser()
     global.userProfileFields = ['display-name', 'display-email']
     await TestHelper.createProfile(user2, {
-      'display-name': user2.profile.firstName,
+      'display-name': user2.profile.fullName,
       'display-email': user2.profile.contactEmail
     })
     await TestHelper.acceptInvitation(user2, user)
@@ -211,7 +211,7 @@ describe('example-web-app screenshots', () => {
     global.userProfileFields = ['display-name', 'display-email']
     global.membershipProfileFields = ['display-name', 'display-email']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {
@@ -258,7 +258,7 @@ describe('example-web-app screenshots', () => {
     const user2 = await TestHelper.createUser()
     global.userProfileFields = ['display-name', 'display-email']
     await TestHelper.createProfile(user2, {
-      'display-name': user2.profile.firstName,
+      'display-name': user2.profile.fullName,
       'display-email': user2.profile.contactEmail
     })
     await TestHelper.acceptInvitation(user2, user)
